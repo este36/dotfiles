@@ -1,0 +1,68 @@
+{
+    "makefile.configureOnOpen": true,
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.insertModeKeyBindings": [
+      {
+        "before": ["j", "j"],
+        "after": ["<Esc>"]
+      }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+      {
+        "before": ["<leader>", "p"],
+        "after": [":", "b", "p", "<Enter>"]
+      },
+      {
+        "before": ["<leader>", "n"],
+        "after": [":", "b", "n", "<Enter>"]
+      },
+      {
+        "before": ["<leader>", "d"],
+        "after": [":", "b", "d", "!", "<Enter>"]
+      },
+    ],
+    "vim.leader": "<space>",
+    "vim.handleKeys": {
+      "<C-p>": false,
+      "<C-k>": false,
+      "<C-a>": false,
+      "<C-e>": false,
+      "<C-b>": false,
+      "<C-f>": false
+    },
+    // To improve performance
+    "extensions.experimental.affinity": {
+      "vscodevim.vim": 1
+    },
+	"editor.lineHeight": 24,
+    "editor.insertSpaces": false,
+    "editor.detectIndentation": false,
+    "editor.tabSize": 4,
+    "editor.fontSize": 18,
+    "editor.minimap.renderCharacters": false,
+    "editor.lineNumbers": "relative",
+    "editor.cursorBlinking": "solid",
+    "editor.fontFamily": "'Iosevka Nerd Font Mono', 'Droid Sans Mono', 'monospace', monospace",
+	"workbench.colorTheme": "Gruvbox Material Dark",
+	"editor.minimap.enabled": false,
+	"github.copilot.chat.agent.autoFix": false,
+	"github.copilot.editor.enableCodeActions": false,
+	"github.copilot.nextEditSuggestions.enabled": false,
+	"github.copilot.nextEditSuggestions.fixes": false,
+	"github.copilot.renameSuggestions.triggerAutomatically": false,
+	"github.copilot.chat.useProjectTemplates": false,
+	"github.copilot.chat.copilotDebugCommand.enabled": false,
+	"github.copilot.chat.agent.currentEditorContext.enabled": false,
+	"github.copilot.chat.startDebugging.enabled": false,
+	"github.copilot.enable": {
+		"*": false,
+		"plaintext": false,
+		"markdown": false,
+		"scminput": false
+	},
+	"git.confirmSync": false
+}
