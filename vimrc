@@ -15,11 +15,13 @@ set langmenu=en
 nnoremap <leader><space> :nohlsearch<CR>
 nnoremap <leader>p :bp!<CR>
 nnoremap <leader>n :bn!<CR>
-nnoremap <leader>d :bp! \| bd!#<CR>
+nnoremap <leader>d :bd!<CR>
+nnoremap <leader>D :bp! \| bd!#<CR>
 nnoremap <leader>q :q!<CR>:q!<CR>
 nnoremap <leader>l :enew! \| setlocal buftype=nofile \| r !git ls-files <CR>
 nnoremap <leader>t :enew! \| r !./test
 
+set path+=**
 set mouse=a
 set number
 set showcmd

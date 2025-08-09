@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+declare -A LOCAL_PATHS=(
+    [vimrc]="$HOME/.vimrc"
+    [kitty]="$HOME/.config/kitty/kitty.conf"
+    [vscode]="$HOME/.config/Code/User/settings.json"
+)
+
+declare -A REPO_PATHS=(
+    [vimrc]="./vimrc"
+    [kitty]="./kitty.conf"
+    [vscode]="./settings.json"
+)
+
+setup() {
+    for key in "${!LOCAL_PATHS[@]}"; do
+        local local_path="${LOCAL_PATHS[$key]}"
+        local repo_path="${REPO_PATHS[$key]}"
+        echo "Installation [$key]: $repo_path -> $local_path"
+        mkdir -p "$(dirname "$local_path")"
+        cp "$repo_path" "$local_path"
+    done
+}
+
+update() {
+    for key in "${!LOCAL_PATHS[@]}"; do
+        local local_path="${LOCAL_PATHS[$key]}"
+        local repo_path="${REPO_PATHS[$key]}"
+        echo "Mise à jour [$key]: $local_path -> $repo_path"
+        mkdir -p "$(dirname "$repo_path")"
+        cp "$local_path" "$repo_path"
+    done
+}
+
+if [[ $# -ne 1 ]]; then
+    echo "Usage: $0 [setup|update]"
+    exit 1
+fi
+
+case "$1" in
+    setup) setup ;;
+    update) update ;;
+    *) echo "Commande inconnue: $1" && exit 1 ;;
+esac
