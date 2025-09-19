@@ -6,6 +6,7 @@ let g:did_indent_on = 1
 
 call plug#begin()
 Plug 'tpope/vim-sensible'
+Plug 'yuezk/vim-js'
 call plug#end()
 let mapleader = " "
 
@@ -19,7 +20,7 @@ nnoremap <leader>d :bd!<CR>
 nnoremap <leader>D :bp! \| bd!#<CR>
 nnoremap <leader>q :q!<CR>:q!<CR>
 nnoremap <leader>l :enew! \| setlocal buftype=nofile \| r !git ls-files <CR>
-nnoremap <leader>t :enew! \| r !./test
+nnoremap <leader>t :enew! \| setlocal buftype=nofile  \| r !
 
 set path+=**
 set mouse=a
@@ -33,8 +34,8 @@ set relativenumber
 set tabstop=4
 set shiftwidth=4
 set wrap
-"set smartindent
-set cindent
+set smartindent
+"set cindent
 
 set ignorecase
 set smartcase
