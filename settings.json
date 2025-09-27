@@ -5,12 +5,7 @@
     "vim.useSystemClipboard": true,
     "vim.useCtrlKeys": true,
     "vim.hlsearch": false,
-    "vim.insertModeKeyBindings": [
-      {
-        "before": ["j", "j"],
-        "after": ["<Esc>"]
-      }
-    ],
+    "vim.insertModeKeyBindings": [],
     "vim.normalModeKeyBindingsNonRecursive": [
       {
         "before": ["<leader>", "p"],
@@ -32,14 +27,14 @@
       "<C-a>": false,
       "<C-e>": false,
       "<C-b>": false,
-      "<C-f>": false
+      "<C-f>": false,
+      "<C-h>": false
     },
     // To improve performance
     "extensions.experimental.affinity": {
       "vscodevim.vim": 1
     },
 	"editor.lineHeight": 22,
-    "editor.insertSpaces": false,
     "editor.detectIndentation": false,
     "editor.tabSize": 4,
     "editor.fontSize": 16,
@@ -122,5 +117,10 @@
 	"workbench.tree.enableStickyScroll": false,
 	"problems.decorations.enabled": false,
 	"problems.autoReveal": false,
-	"problems.visibility": false,
+    "problems.visibility": false,
+    "extensions.autoCheckUpdates": false,
+    "update.showReleaseNotes": false,
+    "extensions.autoUpdate": false,
+    "update.mode": "none",
+    "editor.acceptSuggestionOnCommitCharacter": false,
 }
