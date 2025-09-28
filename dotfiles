@@ -5,12 +5,14 @@ declare -A LOCAL_PATHS=(
     [vimrc]="$HOME/.vimrc"
     [kitty]="$HOME/.config/kitty/kitty.conf"
     [vscode]="$HOME/.config/Code/User/settings.json"
+    [gdbinit]="$HOME/.gdbinit"
 )
 
 declare -A REPO_PATHS=(
     [vimrc]="./vimrc"
     [kitty]="./kitty.conf"
     [vscode]="./settings.json"
+    [gdbinit]="./gdbinit"
 )
 
 setup() {
