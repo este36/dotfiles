@@ -46,7 +46,7 @@
 	"editor.lightbulb.enabled": "off",
 	"editor.hover.delay": 1000,
 	"editor.occurrencesHighlight": "off",
-	"workbench.colorTheme": "Gruvbox Dark (Hard)",
+	"workbench.colorTheme": "Gruvbox Material Dark",
 	"workbench.colorCustomizations": {
 		"editorCursor.foreground": "#ffcc11",
 		"editorCursor.background": "#000000"
@@ -123,5 +123,7 @@
     "update.mode": "none",
     "editor.acceptSuggestionOnCommitCharacter": false,
     "chat.mcp.access": "none",
-    "editor.insertSpaces": false,
+	"editor.insertSpaces": false,
+	"gruvboxMaterial.darkWorkbench": "high-contrast",
+	"gruvboxMaterial.darkContrast": "hard",
 }
