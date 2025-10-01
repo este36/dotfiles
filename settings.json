@@ -93,8 +93,7 @@
 	"chat.editing.confirmEditRequestRetry": false,
 	"chat.extensionTools.enabled": false,
 	"chat.emptyChatState.enabled": false,
-	"chat.implicitContext.suggestedContext": false,
-	"chat.mcp.enabled": false,
+    "chat.implicitContext.suggestedContext": false,
 	"chat.promptFiles": false,
 	"chat.notifyWindowOnConfirmation": false,
 	"chat.sendElementsToChat.attachImages": false,
@@ -123,4 +122,6 @@
     "extensions.autoUpdate": false,
     "update.mode": "none",
     "editor.acceptSuggestionOnCommitCharacter": false,
+    "chat.mcp.access": "none",
+    "editor.insertSpaces": false,
 }
