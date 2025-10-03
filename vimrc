@@ -1,3 +1,7 @@
+if &term == 'xterm-kitty'
+    let &t_ut=''
+endif
+
 packadd! gruvbox-material
 
 let g:did_load_filetypes = 1
@@ -27,14 +31,14 @@ set mouse=a
 set number
 set showcmd
 set showmode
-" set cursorline
+"set cursorline
 set wildmenu
 
 set relativenumber
 set tabstop=4
 set shiftwidth=4
 set wrap
-set smartindent
+"set smartindent
 "set cindent
 
 set ignorecase
@@ -65,7 +69,7 @@ let g:netrw_bufsettings = 'rnu'
 "let g:netrw_winsize = 25
 
 "" Available values: 'hard', 'medium'(default), 'soft'
-let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_better_performance = 1
 colorscheme gruvbox-material
 
