@@ -11,6 +11,7 @@ let g:did_indent_on = 1
 call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'yuezk/vim-js'
+Plug 'alexendregv/norminette-vim'
 call plug#end()
 let mapleader = " "
 
