@@ -126,4 +126,5 @@
 	"editor.insertSpaces": false,
 	"gruvboxMaterial.darkWorkbench": "high-contrast",
 	"gruvboxMaterial.darkContrast": "hard",
+	"terminal.integrated.stickyScroll.enabled": false,
 }
