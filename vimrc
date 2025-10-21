@@ -8,10 +8,13 @@ let g:did_load_filetypes = 1
 let g:did_load_ftplugin = 1
 let g:did_indent_on = 1
 
+let g:syntastic_c_checkers = ['norminette', 'gcc']
+let g:syntastic_aggregate_errors = 1
+
 call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'yuezk/vim-js'
-Plug 'alexendregv/norminette-vim'
+Plug 'alexandregv/norminette-vim'
 call plug#end()
 let mapleader = " "
 
@@ -40,7 +43,7 @@ set tabstop=4
 set shiftwidth=4
 set wrap
 "set smartindent
-"set cindent
+set cindent
 
 set ignorecase
 set smartcase
