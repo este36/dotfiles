@@ -3,6 +3,7 @@ set -euo pipefail
 
 declare -A LOCAL_PATHS=(
     [vimrc]="$HOME/.vimrc"
+    [zshrc]="$HOME/.zshrc"
     [kitty]="$HOME/.config/kitty/kitty.conf"
     [vscode]="$HOME/.config/Code/User/settings.json"
     [gdbinit]="$HOME/.gdbinit"
@@ -10,6 +11,7 @@ declare -A LOCAL_PATHS=(
 
 declare -A REPO_PATHS=(
     [vimrc]="./vimrc"
+    [zshrc]="./zshrc"
     [kitty]="./kitty.conf"
     [vscode]="./settings.json"
     [gdbinit]="./gdbinit"
@@ -21,7 +23,7 @@ setup() {
         local repo_path="${REPO_PATHS[$key]}"
         echo "Installation [$key]: $repo_path -> $local_path"
         mkdir -p "$(dirname "$local_path")"
-        cp "$repo_path" "$local_path"
+        cp -r "$repo_path" "$local_path"
     done
 }
 
@@ -31,7 +33,7 @@ update() {
         local repo_path="${REPO_PATHS[$key]}"
         echo "Mise à jour [$key]: $local_path -> $repo_path"
         mkdir -p "$(dirname "$repo_path")"
-        cp "$local_path" "$repo_path"
+        cp -r "$local_path" "$repo_path"
     done
 }
 
