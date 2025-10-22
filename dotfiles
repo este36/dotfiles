@@ -3,6 +3,7 @@ set -euo pipefail
 
 declare -A LOCAL_PATHS=(
     [vimrc]="$HOME/.vimrc"
+    [vim_folder]="$HOME/.vim"
     [zshrc]="$HOME/.zshrc"
     [kitty]="$HOME/.config/kitty/kitty.conf"
     [vscode]="$HOME/.config/Code/User/settings.json"
@@ -11,6 +12,7 @@ declare -A LOCAL_PATHS=(
 
 declare -A REPO_PATHS=(
     [vimrc]="./vimrc"
+    [vim_folder]="vim"
     [zshrc]="./zshrc"
     [kitty]="./kitty.conf"
     [vscode]="./settings.json"
