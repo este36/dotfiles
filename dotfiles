@@ -11,12 +11,12 @@ declare -A LOCAL_PATHS=(
 )
 
 declare -A REPO_PATHS=(
-    [vimrc]="./vimrc"
-    [vim_folder]="vim"
-    [zshrc]="./zshrc"
-    [kitty]="./kitty.conf"
-    [vscode]="./settings.json"
-    [gdbinit]="./gdbinit"
+    [vimrc]="$HOME/dotfiles/vimrc"
+    [vim_folder]="$HOME/dotfiles/vim"
+    [zshrc]="$HOME/dotfiles/zshrc"
+    [kitty]="$HOME/dotfiles/kitty.conf"
+    [vscode]="$HOME/dotfiles/settings.json"
+    [gdbinit]="$HOME/dotfiles/gdbinit"
 )
 
 setup() {
