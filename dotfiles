@@ -25,6 +25,7 @@ setup() {
         local repo_path="${REPO_PATHS[$key]}"
         echo "Installation [$key]: $repo_path -> $local_path"
         mkdir -p "$(dirname "$local_path")"
+		rm -rf "$local_path"
         cp -r "$repo_path" "$local_path"
     done
 }
@@ -35,6 +36,7 @@ update() {
         local repo_path="${REPO_PATHS[$key]}"
         echo "Mise à jour [$key]: $local_path -> $repo_path"
         mkdir -p "$(dirname "$repo_path")"
+		rm -rf "$repo_path"
         cp -r "$local_path" "$repo_path"
     done
 }
