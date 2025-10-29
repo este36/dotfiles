@@ -14,7 +14,7 @@ let g:syntastic_aggregate_errors = 1
 call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'yuezk/vim-js'
-Plug 'alexandregv/norminette-vim'
+Plug 'este36/norminette-vim'
 call plug#end()
 let mapleader = " "
 
