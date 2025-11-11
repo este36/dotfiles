@@ -11,6 +11,7 @@ alias ll="ls -rla"
 alias github="firefox https://github.com/este36"
 alias ft="firefox https://profile-v3.intra.42.fr/"
 
+export EDITOR=vim
 #export HISTFILE=~/.zsh_history
 export HISTSIZE=1000000
 #setopt EXTENDED_HISTORY

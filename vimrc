@@ -42,8 +42,8 @@ set relativenumber
 set tabstop=4
 set shiftwidth=4
 set wrap
-"set smartindent
-set cindent
+set smartindent
+"set cindent
 
 set ignorecase
 set smartcase
