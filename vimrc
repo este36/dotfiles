@@ -10,6 +10,7 @@ let g:did_indent_on = 1
 
 let g:syntastic_c_checkers = ['norminette', 'gcc']
 let g:syntastic_aggregate_errors = 1
+let g:syntastic_c_norminette_exec = 'norminette --no-color'
 
 call plug#begin()
 Plug 'tpope/vim-sensible'
