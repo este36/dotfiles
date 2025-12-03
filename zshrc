@@ -10,9 +10,10 @@ alias ll="ls -rlaF"
 #alias norm="norminette --use-gitignore --no-color"
 alias github="firefox https://github.com/este36"
 alias ft="firefox https://profile-v3.intra.42.fr/"
+alias setup_firefox="nohup firefox >/dev/null &"
 
 export EDITOR=vim
-#export HISTFILE=~/.zsh_history
+export HISTFILE=~/.zsh_history
 export HISTSIZE=1000000
 #setopt EXTENDED_HISTORY
 #setopt SHARE_HISTORY
