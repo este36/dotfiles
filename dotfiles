@@ -28,6 +28,10 @@ setup() {
 		rm -rf "$local_path"
         cp -r "$repo_path" "$local_path"
     done
+	# setup nvim
+	mkdir -p ~/.config/nvim
+	cp -r ~/.vimrc ~/.config/init.vim
+	cp -r ~/.vim/* ~/.config/
 }
 
 update() {
