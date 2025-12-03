@@ -1,12 +1,3 @@
-[submodule "vim/plugged/vim-js"]
-	path = vim/plugged/vim-js
-	url = https://github.com/yuezk/vim-js
-[submodule "vim/plugged/vim-sensible"]
-	path = vim/plugged/vim-sensible
-	url = https://github.com/tpope/vim-sensible
-[submodule "vim/plugged/norminette-vim"]
-	path = vim/plugged/norminette-vim
-	url = https://github.com/este36/norminette-vim
 [submodule "vim/pack/plugins/start/gruvbox-material"]
 	path = vim/pack/plugins/start/gruvbox-material
 	url = https://github.com/sainnhe/gruvbox-material
