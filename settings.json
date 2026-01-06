@@ -127,4 +127,6 @@
 	"gruvboxMaterial.darkWorkbench": "high-contrast",
 	"gruvboxMaterial.darkContrast": "hard",
 	"terminal.integrated.stickyScroll.enabled": false,
+	"clangd.path": "/home/emercier/.config/Code/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/21.1.0/clangd_21.1.0/bin/clangd",
+	"editor.inlayHints.enabled": "off",
 }
