@@ -19,6 +19,7 @@ call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'yuezk/vim-js'
 Plug 'este36/norminette-vim'
+Plug '42paris/42header'
 call plug#end()
 let mapleader = " "
 
