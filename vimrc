@@ -35,6 +35,9 @@ nnoremap <leader>q :q!<CR>:q!<CR>
 nnoremap <leader>l :enew! \| setlocal buftype=nofile \| r !git ls-files <CR>
 nnoremap <leader>t :enew! \| setlocal buftype=nofile  \| r !
 
+set exrc
+set secure
+
 set path+=**
 set mouse=a
 set number
