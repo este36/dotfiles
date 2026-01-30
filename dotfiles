@@ -20,17 +20,21 @@ declare -A REPO_PATHS=(
 )
 
 setup() {
-    for key in "${!LOCAL_PATHS[@]}"; do
-        local local_path="${LOCAL_PATHS[$key]}"
-        local repo_path="${REPO_PATHS[$key]}"
-        echo "Installation [$key]: $repo_path -> $local_path"
-        mkdir -p "$(dirname "$local_path")"
-		rm -rf "$local_path"
-        cp -r "$repo_path" "$local_path"
-    done
-	mkdir -p ~/.config/nvim
-	cp ~/.vimrc ~/.config/nvim/init.vim
-	cp -r ~/.vim/* ~/.config/nvim/
+	for key in "${!LOCAL_PATHS[@]}"; do
+	    local local_path="${LOCAL_PATHS[$key]}"
+	    local repo_path="${REPO_PATHS[$key]}"
+
+	    echo "Installation [$key]: $repo_path -> $local_path"
+
+	    if [[ ! -e "$repo_path" ]]; then
+	        echo "ERROR: repo path not found: $repo_path"
+	        exit 1
+	    fi
+
+	    mkdir -p "$(dirname "$local_path")"
+	    rm -rf "$local_path"
+	    cp -r "$repo_path" "$local_path"
+	done
 }
 
 update() {
