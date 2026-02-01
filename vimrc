@@ -10,7 +10,7 @@ let g:did_indent_on = 1
 
 let g:syntastic_c_checkers = ['norminette', 'gcc']
 let g:syntastic_aggregate_errors = 1
-let g:syntastic_c_norminette_exec = 'norminette --no-color'
+let g:syntastic_c_norminette_exec = 'norminette'
 
 let g:user42 = 'emercier'
 let g:mail42 = 'emercier@student.42lausanne.ch'
