@@ -35,6 +35,11 @@ nnoremap <leader>q :q!<CR>:q!<CR>
 nnoremap <leader>l :enew! \| setlocal buftype=nofile \| r !git ls-files <CR>
 nnoremap <leader>t :enew! \| setlocal buftype=nofile  \| r !
 
+augroup go_makeprg
+  autocmd!
+  autocmd BufEnter *.go if findfile('go.mod', '.;') != '' | setlocal makeprg=go\ build\ . | endif
+augroup END
+
 set exrc
 set secure
 
