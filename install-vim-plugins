@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Script d'installation des plugins Vim/Neovim
+# Usage: ./install-vim-plugins
+
+set -e
+
+PLUGIN_DIR="${HOME}/.vim/pack/plugins/start"
+mkdir -p "$PLUGIN_DIR"
+
+# Liste des plugins à installer
+declare -A PLUGINS=(
+    ["gruvbox-material"]="https://github.com/sainnhe/gruvbox-material"
+    ["vim-sensible"]="https://github.com/tpope/vim-sensible"
+    ["vim-js"]="https://github.com/yuezk/vim-js"
+    ["norminette-vim"]="https://github.com/este36/norminette-vim"
+    ["42header"]="https://github.com/42paris/42header"
+)
+
+echo "Installation des plugins Vim..."
+
+for name in "${!PLUGINS[@]}"; do
+    url="${PLUGINS[$name]}"
+    target="$PLUGIN_DIR/$name"
+    
+    if [ -d "$target/.git" ]; then
+        echo "  Mise à jour de $name..."
+        git -C "$target" pull --quiet
+    else
+        echo "  Installation de $name..."
+        rm -rf "$target"
+        git clone --depth=1 --quiet "$url" "$target"
+    fi
+done
+
+echo "Plugins installés dans $PLUGIN_DIR"

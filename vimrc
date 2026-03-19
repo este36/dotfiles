@@ -2,12 +2,6 @@ if &term == 'xterm-kitty'
     let &t_ut=''
 endif
 
-packadd! gruvbox-material
-
-let g:did_load_filetypes = 1
-let g:did_load_ftplugin = 1
-let g:did_indent_on = 1
-
 let g:syntastic_c_checkers = ['norminette', 'gcc']
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_c_norminette_exec = 'norminette'
@@ -15,12 +9,6 @@ let g:syntastic_c_norminette_exec = 'norminette'
 let g:user42 = 'emercier'
 let g:mail42 = 'emercier@student.42lausanne.ch'
 
-call plug#begin()
-Plug 'tpope/vim-sensible'
-Plug 'yuezk/vim-js'
-Plug 'este36/norminette-vim'
-Plug '42paris/42header'
-call plug#end()
 let mapleader = " "
 
 let $LANG='en'
@@ -48,7 +36,6 @@ set mouse=a
 set number
 set showcmd
 set showmode
-"set cursorline
 set wildmenu
 
 set relativenumber
@@ -56,12 +43,11 @@ set tabstop=4
 set shiftwidth=4
 set wrap
 set smartindent
-"set cindent
 
 set ignorecase
 set smartcase
 set incsearch
-set hlsearch
+set nohlsearch
 
 set nobackup
 set nowritebackup
@@ -73,19 +59,13 @@ set ttyfast
 set termguicolors
 set background=dark
 set clipboard=unnamedplus
-set nohlsearch
 set noerrorbells
 set visualbell
 set t_vb=
 set formatoptions-=cro
 
 let g:netrw_bufsettings = 'rnu'
-"let g:netrw_banner = 0
-"let g:netrw_liststyle = 0
-"let g:netrw_browse_split = 0
-"let g:netrw_winsize = 25
 
-"" Available values: 'hard', 'medium'(default), 'soft'
 let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_better_performance = 1
 colorscheme gruvbox-material

@@ -1,60 +1,58 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-declare -A LOCAL_PATHS=(
-    [vimrc]="$HOME/.vimrc"
-    [vim_folder]="$HOME/.vim"
-    [zshrc]="$HOME/.zshrc"
-    [kitty]="$HOME/.config/kitty/kitty.conf"
-    [vscode]="$HOME/.config/Code/User/settings.json"
-    [gdbinit]="$HOME/.gdbinit"
-)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-declare -A REPO_PATHS=(
-    [vimrc]="$HOME/dotfiles/vimrc"
-    [vim_folder]="$HOME/dotfiles/vim"
-    [zshrc]="$HOME/dotfiles/zshrc"
-    [kitty]="$HOME/dotfiles/kitty.conf"
-    [vscode]="$HOME/dotfiles/settings.json"
-    [gdbinit]="$HOME/dotfiles/gdbinit"
+declare -A LINKS=(
+    ["$SCRIPT_DIR/vimrc"]="$HOME/.vimrc"
+    ["$SCRIPT_DIR/zshrc"]="$HOME/.zshrc"
+    ["$SCRIPT_DIR/kitty.conf"]="$HOME/.config/kitty/kitty.conf"
+    ["$SCRIPT_DIR/settings.json"]="$HOME/.config/Code/User/settings.json"
+    ["$SCRIPT_DIR/gdbinit"]="$HOME/.gdbinit"
 )
 
 setup() {
-	for key in "${!LOCAL_PATHS[@]}"; do
-	    local local_path="${LOCAL_PATHS[$key]}"
-	    local repo_path="${REPO_PATHS[$key]}"
+    echo "=== Installation des dotfiles ==="
+    
+    for source in "${!LINKS[@]}"; do
+        target="${LINKS[$source]}"
+        echo "Link: $source -> $target"
+        mkdir -p "$(dirname "$target")"
+        rm -rf "$target"
+        ln -s "$source" "$target"
+    done
 
-	    echo "Installation [$key]: $repo_path -> $local_path"
+    # Lien spécial pour neovim
+    mkdir -p "$HOME/.config/nvim"
+    rm -f "$HOME/.config/nvim/init.vim"
+    ln -s "$SCRIPT_DIR/vimrc" "$HOME/.config/nvim/init.vim"
+    
+    # Lien pour partager les plugins entre vim et neovim
+    mkdir -p "$HOME/.local/share/nvim/site"
+    rm -f "$HOME/.local/share/nvim/site/pack"
+    ln -s "$HOME/.vim/pack" "$HOME/.local/share/nvim/site/pack"
 
-	    if [[ ! -e "$repo_path" ]]; then
-	        echo "ERROR: repo path not found: $repo_path"
-	        exit 1
-	    fi
-
-	    mkdir -p "$(dirname "$local_path")"
-	    rm -rf "$local_path"
-	    cp -r "$repo_path" "$local_path"
-	done
+    # Installer les plugins vim
+    echo ""
+    echo "=== Installation des plugins Vim ==="
+    "$SCRIPT_DIR/install-vim-plugins"
+    
+    echo ""
+    echo "✓ Installation terminée !"
 }
 
-update() {
-    for key in "${!LOCAL_PATHS[@]}"; do
-        local local_path="${LOCAL_PATHS[$key]}"
-        local repo_path="${REPO_PATHS[$key]}"
-        echo "Mise à jour [$key]: $local_path -> $repo_path"
-        mkdir -p "$(dirname "$repo_path")"
-		rm -rf "$repo_path"
-        cp -r "$local_path" "$repo_path"
-    done
+update_plugins() {
+    echo "=== Mise à jour des plugins Vim ==="
+    "$SCRIPT_DIR/install-vim-plugins"
 }
 
 if [[ $# -ne 1 ]]; then
-    echo "Usage: $0 [setup|update]"
+    echo "Usage: $0 [setup|update-plugins]"
     exit 1
 fi
 
 case "$1" in
     setup) setup ;;
-    update) update ;;
+    update-plugins) update_plugins ;;
     *) echo "Commande inconnue: $1" && exit 1 ;;
 esac
