@@ -27,7 +27,7 @@ setup() {
     rm -f "$HOME/.config/nvim/init.vim"
     ln -s "$SCRIPT_DIR/vimrc" "$HOME/.config/nvim/init.vim"
     
-    # Lien pour partager les plugins entre vim et neovim
+    # Lien pour partager les plugins communs entre vim et neovim
     mkdir -p "$HOME/.local/share/nvim/site"
     rm -f "$HOME/.local/share/nvim/site/pack"
     ln -s "$HOME/.vim/pack" "$HOME/.local/share/nvim/site/pack"

@@ -1,36 +1,128 @@
 #!/bin/bash
 
 # Script d'installation des plugins Vim/Neovim
-# Usage: ./install-vim-plugins
+# Usage: ./install-vim-plugins [clean]
+#   clean: supprime tout et réinstalle depuis zéro
 
 set -e
 
-PLUGIN_DIR="${HOME}/.vim/pack/plugins/start"
-mkdir -p "$PLUGIN_DIR"
+CLEAN_MODE=false
+if [[ "${1:-}" == "clean" ]]; then
+    CLEAN_MODE=true
+    echo "Mode CLEAN: suppression et réinstallation complète"
+fi
 
-# Liste des plugins à installer
-declare -A PLUGINS=(
+VIM_PLUGIN_DIR="${HOME}/.vim/pack/plugins/start"
+NVIM_PLUGIN_DIR="${HOME}/.local/share/nvim/site/pack/plugins/start"
+
+# Plugins pour Vim et Neovim
+declare -a PLUGIN_NAMES=(
+    "gruvbox-material"
+    "vim-sensible"
+    "vim-js"
+    "typescript-vim"
+    "norminette-vim"
+    "42header"
+)
+
+declare -A PLUGIN_URLS=(
     ["gruvbox-material"]="https://github.com/sainnhe/gruvbox-material"
     ["vim-sensible"]="https://github.com/tpope/vim-sensible"
     ["vim-js"]="https://github.com/yuezk/vim-js"
+    ["typescript-vim"]="https://github.com/leafgarland/typescript-vim"
     ["norminette-vim"]="https://github.com/este36/norminette-vim"
     ["42header"]="https://github.com/42paris/42header"
 )
 
-echo "Installation des plugins Vim..."
+# Plugins spécifiques à Neovim (LSP natif)
+declare -a NVIM_PLUGIN_NAMES=("nvim-lspconfig")
+declare -A NVIM_PLUGIN_URLS=(
+    ["nvim-lspconfig"]="https://github.com/neovim/nvim-lspconfig"
+)
 
-for name in "${!PLUGINS[@]}"; do
-    url="${PLUGINS[$name]}"
-    target="$PLUGIN_DIR/$name"
+install_plugin() {
+    local target_dir="$1"
+    local name="$2"
+    local url="$3"
+    local target="$target_dir/$name"
     
     if [ -d "$target/.git" ]; then
         echo "  Mise à jour de $name..."
-        git -C "$target" pull --quiet
+        git -C "$target" pull --quiet 2>/dev/null || true
     else
         echo "  Installation de $name..."
         rm -rf "$target"
         git clone --depth=1 --quiet "$url" "$target"
     fi
+}
+
+# Mode clean: suppression de tout
+if $CLEAN_MODE; then
+    echo "Suppression des plugins existants..."
+    rm -rf "$VIM_PLUGIN_DIR" "$NVIM_PLUGIN_DIR"
+fi
+
+mkdir -p "$VIM_PLUGIN_DIR" "$NVIM_PLUGIN_DIR"
+
+echo "Installation des plugins communs (Vim + Neovim)..."
+for name in "${PLUGIN_NAMES[@]}"; do
+    install_plugin "$VIM_PLUGIN_DIR" "$name" "${PLUGIN_URLS[$name]}"
 done
 
-echo "Plugins installés dans $PLUGIN_DIR"
+echo "Installation des plugins Neovim uniquement (LSP)..."
+for name in "${NVIM_PLUGIN_NAMES[@]}"; do
+    install_plugin "$NVIM_PLUGIN_DIR" "$name" "${NVIM_PLUGIN_URLS[$name]}"
+done
+
+# Fonction pour nettoyer les plugins obsolètes
+cleanup_obsolete_plugins() {
+    local plugin_dir="$1"
+    shift
+    local -a valid_names=("$@")
+    
+    if [ ! -d "$plugin_dir" ]; then
+        return
+    fi
+    
+    # Créer une lookup table des plugins valides
+    declare -A valid_lookup
+    for name in "${valid_names[@]}"; do
+        valid_lookup["$name"]=1
+    done
+    
+    for dir in "$plugin_dir"/*; do
+        if [ -d "$dir" ]; then
+            local name=$(basename "$dir")
+            if [ -z "${valid_lookup[$name]}" ]; then
+                echo "  Suppression de $name (obsolète)..."
+                rm -rf "$dir"
+            fi
+        fi
+    done
+}
+
+# Nettoyage des plugins obsolètes (qui ne sont plus dans la liste)
+if ! $CLEAN_MODE; then
+    echo "Vérification des plugins obsolètes..."
+    
+    # Combine tous les plugins valides
+    ALL_VALID_PLUGINS=("${PLUGIN_NAMES[@]}" "${NVIM_PLUGIN_NAMES[@]}")
+    
+    cleanup_obsolete_plugins "$VIM_PLUGIN_DIR" "${ALL_VALID_PLUGINS[@]}"
+    cleanup_obsolete_plugins "$NVIM_PLUGIN_DIR" "${ALL_VALID_PLUGINS[@]}"
+fi
+
+# Vérifier typescript-language-server
+echo ""
+echo "=== TypeScript LSP ==="
+if command -v typescript-language-server &> /dev/null; then
+    echo "✓ typescript-language-server déjà installé"
+else
+    echo "⚠ typescript-language-server non trouvé"
+    echo ""
+    echo "Pour l'installer:"
+    echo "  npm install -g typescript-language-server typescript"
+fi
+
+echo ""
+echo "✓ Plugins installés !"

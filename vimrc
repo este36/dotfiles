@@ -28,6 +28,15 @@ augroup go_makeprg
   autocmd BufEnter *.go if findfile('go.mod', '.;') != '' | setlocal makeprg=go\ build\ . | endif
 augroup END
 
+" TypeScript: typecheck avec tsc + indent 2 espaces
+augroup ts_settings
+  autocmd!
+  autocmd BufEnter *.ts,*.tsx,*.js,*.jsx setlocal makeprg=npx\ tsc\ --noEmit\ --skipLibCheck
+  autocmd BufEnter *.ts,*.tsx,*.js,*.jsx setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+augroup END
+
+nnoremap <leader>c :make<CR>
+
 set exrc
 set secure
 
@@ -73,3 +82,46 @@ colorscheme gruvbox-material
 highlight! link IncSearch Visual
 autocmd ColorScheme * highlight! link IncSearch Visual
 highlight! link Search Visual
+
+" ============================================================================
+" TypeScript LSP - Uniquement pour Neovim
+" ============================================================================
+
+if has('nvim')
+    lua << EOF
+    -- Désactiver complètement les diagnostics (pas d'erreurs/warnings affichées)
+    vim.diagnostic.config({
+        virtual_text = false,
+        signs = false,
+        underline = false,
+        update_in_insert = false,
+        severity_sort = false,
+    })
+    -- Ignorer les diagnostics du serveur
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
+    
+    -- Keymaps LSP uniquement
+    local on_attach = function(client, bufnr)
+        local opts = { noremap = true, silent = true, buffer = bufnr }
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    end
+    
+    -- Configurer le LSP TypeScript
+    if vim.lsp.config then
+        vim.lsp.config.ts_ls = {
+            cmd = { 'typescript-language-server', '--stdio' },
+            filetypes = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
+            root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
+            on_attach = on_attach,
+        }
+        vim.lsp.enable('ts_ls')
+    else
+        local ok, lspconfig = pcall(require, 'lspconfig')
+        if ok then
+            lspconfig.ts_ls.setup({ on_attach = on_attach })
+        end
+    end
+EOF
+endif
