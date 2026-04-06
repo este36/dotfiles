@@ -77,6 +77,7 @@ let g:netrw_bufsettings = 'rnu'
 
 let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_better_performance = 1
+packloadall
 colorscheme gruvbox-material
 
 highlight! link IncSearch Visual
