@@ -3,10 +3,12 @@ export EDITOR=vim
 if command -v brew &> /dev/null; then
     export PATH="$(brew --prefix)/bin:$PATH"
 else
-    export PATH="$(HOME)/local/bin:$PATH"
+	export PATH="$(HOME)/local/bin:$PATH"
     export PATH="$(HOME)/dotfiles:$PATH"
     export PATH="$(HOME)/local/node/bin:$PATH"
 fi
+
+export PATH="${HOME}/.local/bin:$PATH"
 
 export PS1="[%n@%m %~]$ "
 alias ls="ls --color"

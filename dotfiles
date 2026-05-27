@@ -1,49 +1,78 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [[ "${BASH_VERSINFO[0]}" -lt 4 ]]; then
+    echo "Erreur: bash 4+ requis. Relance avec: /opt/homebrew/bin/bash $0 $*" >&2
+    exit 1
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+IS_MACOS=false
+[[ "$(uname)" == "Darwin" ]] && IS_MACOS=true
+
+KITTY_DIR="$HOME/.config/kitty"
+
+if [[ "$IS_MACOS" == true ]]; then
+    VSCODE_DIR="$HOME/Library/Application Support/Code/User"
+else
+    VSCODE_DIR="$HOME/.config/Code/User"
+fi
 
 declare -A LINKS=(
     ["$SCRIPT_DIR/vimrc"]="$HOME/.vimrc"
     ["$SCRIPT_DIR/zshrc"]="$HOME/.zshrc"
-    ["$SCRIPT_DIR/kitty.conf"]="$HOME/.config/kitty/kitty.conf"
-    ["$SCRIPT_DIR/settings.json"]="$HOME/.config/Code/User/settings.json"
-    ["$SCRIPT_DIR/gdbinit"]="$HOME/.gdbinit"
+    ["$SCRIPT_DIR/kitty.conf"]="$KITTY_DIR/kitty.conf"
+    ["$SCRIPT_DIR/settings.json"]="$VSCODE_DIR/settings.json"
 )
+
+if [[ "$IS_MACOS" == false ]]; then
+    LINKS["$SCRIPT_DIR/gdbinit"]="$HOME/.gdbinit"
+fi
+
+link_file() {
+    local src="$1" dst="$2"
+    [[ -e "$src" ]] || { echo "skip (source manquante): $src" >&2; return 0; }
+    
+    echo "Link: $src -> $dst"
+    mkdir -p "$(dirname "$dst")"
+    [[ -e "$dst" || -L "$dst" ]] && rm -rf "$dst"
+    ln -s "$src" "$dst"
+}
 
 setup() {
     echo "=== Installation des dotfiles ==="
     
-    for source in "${!LINKS[@]}"; do
-        target="${LINKS[$source]}"
-        echo "Link: $source -> $target"
-        mkdir -p "$(dirname "$target")"
-        rm -rf "$target"
-        ln -s "$source" "$target"
+    for src in "${!LINKS[@]}"; do
+        link_file "$src" "${LINKS[$src]}"
     done
 
-    # Lien spécial pour neovim
     mkdir -p "$HOME/.config/nvim"
-    rm -f "$HOME/.config/nvim/init.vim"
-    ln -s "$SCRIPT_DIR/vimrc" "$HOME/.config/nvim/init.vim"
+    link_file "$SCRIPT_DIR/vimrc" "$HOME/.config/nvim/init.vim"
     
-    # Lien pour partager les plugins communs entre vim et neovim
     mkdir -p "$HOME/.local/share/nvim/site"
-    rm -f "$HOME/.local/share/nvim/site/pack"
-    ln -s "$HOME/.vim/pack" "$HOME/.local/share/nvim/site/pack"
+    if [[ -d "$HOME/.vim/pack" ]]; then
+        link_file "$HOME/.vim/pack" "$HOME/.local/share/nvim/site/pack"
+    fi
 
-    # Installer les plugins vim
     echo ""
     echo "=== Installation des plugins Vim ==="
-    "$SCRIPT_DIR/install-vim-plugins"
+    if [[ -x "$SCRIPT_DIR/install-vim-plugins" ]]; then
+        "$SCRIPT_DIR/install-vim-plugins"
+    else
+        echo "install-vim-plugins non trouve" >&2
+    fi
     
     echo ""
-    echo "✓ Installation terminée !"
+    echo "Installation terminee"
 }
 
 update_plugins() {
-    echo "=== Mise à jour des plugins Vim ==="
-    "$SCRIPT_DIR/install-vim-plugins"
+    if [[ -x "$SCRIPT_DIR/install-vim-plugins" ]]; then
+        "$SCRIPT_DIR/install-vim-plugins"
+    else
+        echo "Erreur: install-vim-plugins introuvable" >&2
+        exit 1
+    fi
 }
 
 if [[ $# -ne 1 ]]; then

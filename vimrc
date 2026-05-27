@@ -22,6 +22,7 @@ nnoremap <leader>D :bp! \| bd!#<CR>
 nnoremap <leader>q :q!<CR>:q!<CR>
 nnoremap <leader>l :enew! \| setlocal buftype=nofile \| r !git ls-files <CR>
 nnoremap <leader>t :enew! \| setlocal buftype=nofile  \| r !
+nnoremap <leader>e :Explore<CR>
 
 augroup go_makeprg
   autocmd!
@@ -31,7 +32,7 @@ augroup END
 " TypeScript: typecheck avec tsc + indent 2 espaces
 augroup ts_settings
   autocmd!
-  autocmd BufEnter *.ts,*.tsx,*.js,*.jsx setlocal makeprg=npx\ tsc\ --noEmit\ --skipLibCheck
+	autocmd BufEnter *.ts,*.tsx,*.js,*.jsx setlocal makeprg=npx\ tsc\ --noEmit\ --skipLibCheck\ --target\ ES2020\ --module\ NodeNext\ --moduleResolution\ NodeNext\ --strict\ --ignoreConfig\ %
   autocmd BufEnter *.ts,*.tsx,*.js,*.jsx setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 augroup END
 
@@ -67,7 +68,13 @@ set ttyfast
 
 set termguicolors
 set background=dark
-set clipboard=unnamedplus
+
+if has('macunix')
+    set clipboard=unnamed
+else
+    set clipboard=unnamedplus
+endif
+
 set noerrorbells
 set visualbell
 set t_vb=
