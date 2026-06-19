@@ -11,8 +11,9 @@ let g:mail42 = 'emercier@student.42lausanne.ch'
 
 let mapleader = " "
 
-let $LANG='en'
-set langmenu=en
+set langmenu=en_US.UTF-8
+let $LANG = "en_US.UTF-8"
+let $LC_ALL = "en_US.UTF-8"
 
 nnoremap <leader><space> :nohlsearch<CR>
 nnoremap <leader>p :bp!<CR>
@@ -23,6 +24,9 @@ nnoremap <leader>q :q!<CR>:q!<CR>
 nnoremap <leader>l :enew! \| setlocal buftype=nofile \| r !git ls-files <CR>
 nnoremap <leader>t :enew! \| setlocal buftype=nofile  \| r !
 nnoremap <leader>e :Explore<CR>
+nnoremap <leader>b :enew! \| setlocal buftype=nofile
+nnoremap <leader>t :bo terminal<CR>
+nnoremap <leader>c :make<CR>
 
 augroup go_makeprg
   autocmd!
@@ -35,7 +39,38 @@ augroup ts_settings
   autocmd BufEnter *.ts,*.tsx,*.js,*.jsx setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 augroup END
 
-nnoremap <leader>c :make<CR>
+:command! QuickfixBlock call s:QuickfixBlock()
+
+function! s:QuickfixBlock()
+  let l:lines = getline(1, '$')
+  let l:entries = []
+  for l in l:lines
+    let l:parts = split(l, '[:]')
+    if len(l:parts) < 2
+      continue
+    endif
+    let l:file = l:parts[0]
+    let l:line = str2nr(l:parts[1])
+    let l:col = len(l:parts) > 2 ? str2nr(l:parts[2]) : 1
+    call add(l:entries, {'filename': l:file, 'lnum': l:line, 'col': l:col, 'text': ''})
+  endfor
+  if !empty(l:entries)
+    call setqflist(l:entries)
+    copen
+  endif
+endfunction
+
+command! -nargs=1 -complete=file Go call s:Go(<q-args>)
+
+function! s:Go(arg)
+  let l:parts = split(a:arg, ':')
+  let l:file = l:parts[0]
+  let l:line = len(l:parts) > 1 ? str2nr(l:parts[1]) : 1
+  let l:col  = len(l:parts) > 2 ? str2nr(l:parts[2]) : 1
+
+  execute 'edit' fnameescape(l:file)
+  call cursor(l:line, l:col)
+endfunction
 
 set exrc
 set secure
