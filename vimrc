@@ -29,7 +29,6 @@ augroup go_makeprg
   autocmd BufEnter *.go if findfile('go.mod', '.;') != '' | setlocal makeprg=go\ build\ . | endif
 augroup END
 
-" TypeScript: typecheck avec tsc + indent 2 espaces
 augroup ts_settings
   autocmd!
 	autocmd BufEnter *.ts,*.tsx,*.js,*.jsx setlocal makeprg=npx\ tsc\ --noEmit\ --skipLibCheck\ --target\ ES2020\ --module\ NodeNext\ --moduleResolution\ NodeNext\ --strict\ --ignoreConfig\ %
@@ -91,13 +90,8 @@ highlight! link IncSearch Visual
 autocmd ColorScheme * highlight! link IncSearch Visual
 highlight! link Search Visual
 
-" ============================================================================
-" TypeScript LSP - Uniquement pour Neovim
-" ============================================================================
-
 if has('nvim')
     lua << EOF
-    -- Désactiver complètement les diagnostics (pas d'erreurs/warnings affichées)
     vim.diagnostic.config({
         virtual_text = false,
         signs = false,
@@ -105,10 +99,8 @@ if has('nvim')
         update_in_insert = false,
         severity_sort = false,
     })
-    -- Ignorer les diagnostics du serveur
     vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
     
-    -- Keymaps LSP uniquement
     local on_attach = function(client, bufnr)
         local opts = { noremap = true, silent = true, buffer = bufnr }
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
@@ -116,7 +108,6 @@ if has('nvim')
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     end
     
-    -- Configurer le LSP TypeScript
     if vim.lsp.config then
         vim.lsp.config.ts_ls = {
             cmd = { 'typescript-language-server', '--stdio' },
@@ -131,5 +122,10 @@ if has('nvim')
             lspconfig.ts_ls.setup({ on_attach = on_attach })
         end
     end
+
+	local project_vimrc = vim.fn.getcwd() .. "/.vimrc"
+	if vim.fn.filereadable(project_vimrc) == 1 then
+	  vim.cmd("source " .. project_vimrc)
+end
 EOF
 endif
