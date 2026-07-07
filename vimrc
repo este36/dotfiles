@@ -28,17 +28,6 @@ nnoremap <leader>b :enew! \| setlocal buftype=nofile
 nnoremap <leader>t :bo terminal<CR>
 nnoremap <leader>c :make<CR>
 
-augroup go_makeprg
-  autocmd!
-  autocmd BufEnter *.go if findfile('go.mod', '.;') != '' | setlocal makeprg=go\ build\ . | endif
-augroup END
-
-augroup ts_settings
-  autocmd!
-	autocmd BufEnter *.ts,*.tsx,*.js,*.jsx setlocal makeprg=npx\ tsc\ --noEmit\ --skipLibCheck\ --target\ ES2020\ --module\ NodeNext\ --moduleResolution\ NodeNext\ --strict\ --ignoreConfig\ %
-  autocmd BufEnter *.ts,*.tsx,*.js,*.jsx setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
-augroup END
-
 :command! QuickfixBlock call s:QuickfixBlock()
 
 function! s:QuickfixBlock()
